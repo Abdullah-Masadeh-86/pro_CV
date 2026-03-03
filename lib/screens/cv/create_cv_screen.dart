@@ -488,7 +488,7 @@ class _CVFormScreenState extends State<CVFormScreen> {
       }
 
       if (mounted) {
-        Navigator.pop(context, true);
+        Navigator.pop(context);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(widget.isEditing ? 'CV updated successfully' : 'CV created successfully'),
