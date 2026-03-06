@@ -48,6 +48,11 @@ class _CVFormScreenState extends State<CVFormScreen> {
   final _githubController = TextEditingController();
   final _summaryController = TextEditingController();
 
+  // Dynamic lists for work experience, education, and skills
+  final List<WorkExperience> _workExperiences = [];
+  final List<Education> _education = [];
+  final List<Skill> _skills = [];
+
   final FirebaseService _firebaseService = FirebaseService();
   bool _isLoading = false;
 
@@ -112,6 +117,12 @@ class _CVFormScreenState extends State<CVFormScreen> {
             _buildOnlinePresenceSection(),
             const SizedBox(height: 24),
             _buildSummarySection(),
+            const SizedBox(height: 24),
+            _buildWorkExperienceSection(),
+            const SizedBox(height: 24),
+            _buildEducationSection(),
+            const SizedBox(height: 24),
+            _buildSkillsSection(),
             const SizedBox(height: 32),
             _buildActionButtons(),
           ],
@@ -472,9 +483,9 @@ class _CVFormScreenState extends State<CVFormScreen> {
         userId: user.uid,
         title: _titleController.text.trim(),
         personalInfo: personalInfo,
-        education: [],
-        workExperience: [],
-        skills: [],
+        education: _education,
+        workExperience: _workExperiences,
+        skills: _skills,
         template: 'modern',
         isPublic: false,
         createdAt: widget.isEditing ? widget.cv!.createdAt : DateTime.now(),
@@ -508,5 +519,155 @@ class _CVFormScreenState extends State<CVFormScreen> {
         });
       }
     }
+  }
+
+  Widget _buildWorkExperienceSection() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Work Experience',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 8),
+            const Text('Add at least one work experience to appear in your CV preview.'),
+            const SizedBox(height: 8),
+            ElevatedButton.icon(
+              onPressed: _addSampleWorkExperience,
+              icon: const Icon(Icons.add),
+              label: const Text('Add Sample Work Experience'),
+            ),
+            if (_workExperiences.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              ..._workExperiences.map((exp) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text('• ${exp.position} at ${exp.company}'),
+              )),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEducationSection() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Education',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 8),
+            const Text('Add at least one education entry to appear in your CV preview.'),
+            const SizedBox(height: 8),
+            ElevatedButton.icon(
+              onPressed: _addSampleEducation,
+              icon: const Icon(Icons.add),
+              label: const Text('Add Sample Education'),
+            ),
+            if (_education.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              ..._education.map((edu) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text('• ${edu.degree} in ${edu.field} at ${edu.institution}'),
+              )),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSkillsSection() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Skills',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 8),
+            const Text('Add skills to appear in your CV preview.'),
+            const SizedBox(height: 8),
+            ElevatedButton.icon(
+              onPressed: _addSampleSkills,
+              icon: const Icon(Icons.add),
+              label: const Text('Add Sample Skills'),
+            ),
+            if (_skills.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                children: _skills.map((skill) => Chip(
+                  label: Text(skill.name),
+                  backgroundColor: Colors.blue.withValues(alpha: 0.1),
+                )).toList(),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _addSampleWorkExperience() {
+    setState(() {
+      _workExperiences.add(
+        WorkExperience(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          company: 'Tech Company',
+          position: 'Software Engineer',
+          startDate: '2022-01',
+          endDate: '2024-01',
+          current: false,
+          description: 'Developed and maintained mobile applications.',
+          achievements: ['Improved performance by 30%', 'Led a team of 3 developers'],
+        ),
+      );
+    });
+  }
+
+  void _addSampleEducation() {
+    setState(() {
+      _education.add(
+        Education(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          institution: 'University of Technology',
+          degree: 'Bachelor of Science',
+          field: 'Computer Science',
+          startDate: '2018-09',
+          endDate: '2022-06',
+          gpa: '3.8',
+          description: 'Focused on software engineering and algorithms.',
+        ),
+      );
+    });
+  }
+
+  void _addSampleSkills() {
+    setState(() {
+      _skills.addAll([
+        Skill(id: '1', name: 'Dart', level: 'Advanced', category: 'Programming'),
+        Skill(id: '2', name: 'Flutter', level: 'Advanced', category: 'Framework'),
+        Skill(id: '3', name: 'Firebase', level: 'Intermediate', category: 'Backend'),
+      ]);
+    });
   }
 }

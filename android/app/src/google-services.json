@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1038009858795",
+    "project_id": "cv-project-adc4b",
+    "storage_bucket": "cv-project-adc4b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1038009858795:android:5ef5c0d3dc5fc13eea9cae",
+        "android_client_info": {
+          "package_name": "com.cvapp.cv_flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1038009858795-fptsrfhde2c1vgroju9lutcvhhk8umrf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYXWBO8pdzZec8kkX7_jG512JXl3nNP8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1038009858795-fptsrfhde2c1vgroju9lutcvhhk8umrf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
